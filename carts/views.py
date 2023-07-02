@@ -1,13 +1,14 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from store.models import Product
 from .models import Cart,CartItem 
-from django.http import HttpResponse 
+# from django.http import HttpResponse 
+
 def _cart_id(request):
     cart = request.session.session_key
     if not cart:
         cart = request.session.create()
     return cart
-
+# to add product to cart one by one
 def add_cart(request,product_id):
     #get the product
     product = Product.objects.get(id=product_id) 
@@ -32,7 +33,31 @@ def add_cart(request,product_id):
         )
         cart_item.save()
     return redirect('cart')
+
+
+# to remove product added to cart one by one
+def remove_cart(request,product_id):
+    cart = Cart.objects.get(cart_id = _cart_id(request))
+    product = get_object_or_404(Product,id = product_id)
+    cart_item = CartItem.objects.get(product = product,cart = cart)
+    if cart_item.quantity > 1:
+        cart_item.quantity -=1
+        cart_item.save()
+    else:
+        cart_item.delete()
+    return redirect('cart')
+
+# to remove whole product regardless of the amount
+def remove_cart_item(request,product_id):
+    cart = Cart.objects.get(cart_id = _cart_id(request))
+    product = get_object_or_404(Product,id = product_id)
+    cart_item = CartItem.objects.get(product=product,cart=cart)
+    cart_item.delete()
+    return redirect('cart')
         
+
+
+
 def cart(request,total=0,quantity=0,cart_item=None):
     try:
         cart = Cart.objects.get(cart_id= _cart_id(request))
