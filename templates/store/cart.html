@@ -69,14 +69,15 @@
                   <dt>Toplam Ücret:</dt>
                   <dd class="text-right">{{ total }} TL</dd>
                 </dl>
-                <dl class="dlist-align">
-                  <dt>Tax:</dt>
-                  <dd class="text-right"> $10.00</dd>
+                {% comment %} to apply taxt {% endcomment %}
+                {% comment %} <dl class="dlist-align">
+                  <dt>Vergi:</dt>
+                  <dd class="text-right"> {{ tax }} TL</dd>
                 </dl>
                 <dl class="dlist-align">
-                  <dt>Total:</dt>
-                  <dd class="text-right text-dark b"><strong>$59.97</strong></dd>
-                </dl>
+                  <dt>Toplam Tutar:</dt>
+                  <dd class="text-right text-dark b"><strong>{{ grand_total }}</strong></dd>
+                </dl> {% endcomment %}
                 <hr>
                 <p class="text-center mb-3">
                     <img src="./images/misc/payments.png" height="26">
