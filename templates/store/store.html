@@ -4,8 +4,12 @@
 <!--SECTION PAGETOP-->
 <section class="section-pagetop bg">
     <div class="container">
-        <h2 class="title-page">Our Store</h2>
-        
+        {% if 'search' in request.path %}
+        {% comment %} search result     {% endcomment %}
+        <h3 class="title-page">Arama Sonuçları </h3>
+        {% else %}
+        <h2 class="title-page">Mağaza</h2>
+        {% endif %}
     </div> <!-- container //  -->
 </section>
 <!--SECTION INTROEND-->
@@ -125,6 +129,7 @@
     </header><!-- sect-heading -->
     
     <div class="row">
+        {% if products %}
         {% for product in products%}
         <div class="col-md-4">
             <figure class="card card-product-grid">
@@ -145,7 +150,15 @@
                 </figcaption>
             </figure>
         </div> <!-- col.// -->
-        {% endfor%}        
+        {% endfor%}
+        {% else %}
+        <div class="container text-center">
+                <h2>Sonuç Bulunamadı</h2>
+                <a href= "{% url 'store' %}" class = 'btn btn-primary'>Alışverişe Devam Edin</a>
+        </div>
+        
+        {% endif %}
+
     </div> <!-- row end.// -->
     
     
