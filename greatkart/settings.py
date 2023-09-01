@@ -70,6 +70,7 @@ TEMPLATES = [
                 'carts.context_processors.counter',
             ],
         },
+        
     },
 ]
 

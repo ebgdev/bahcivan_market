@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render,redirect,get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 from store.models import Product
@@ -11,6 +12,9 @@ def _cart_id(request):
     return cart
 # to add product to cart one by one
 def add_cart(request,product_id):
+    size = request.GET['size'] #handlign product multiple size option here.
+    return HttpResponse(size)
+    exit()
     #get the product
     product = Product.objects.get(id=product_id) 
     try:
