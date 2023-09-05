@@ -40,10 +40,11 @@
 					<div class="row">
 						<div class="item-option-select">
 							<h6>Boyut Seç</h6>
-								<select name="size" class="form-control">
-									<option value="KucukBoy">Küçük Boy</option>
-									<option value="OrtaBoy">Orta Boy</option>
-									<option value="BuyukBoy">Büyük Boy</option>
+								<select name="size" class="form-control" required>
+									<option value="" disabled selected>Boyut Seçiniz</option>
+									{% for i in single_product.variation_set.all %}
+									<option value="{{i.variation_value}}">{{i.variation_value}}</option>
+									{%endfor%}
 								</select>
 						</div>
 					</div> <!-- row.// -->
