@@ -25,7 +25,8 @@
 </article> <!-- gallery-wrap .end// -->
 		</aside>
 		<main class="col-md-6 border-left">
-			<form action="{% url 'add_cart' single_product.id %}" method="GET">
+			<form action="{% url 'add_cart' single_product.id %}" method="POST">
+				{% csrf_token %}
 				<article class="content-body">
 					<h2 class="title">{{ single_product.product_name }}</h2>
 
@@ -40,25 +41,26 @@
 					<div class="row">
 						<div class="item-option-select">
 							<h6>Boyut Seç</h6>
-								<select name="size" class="form-control">
-									 
-									{% for i in single_product.variation_set.all %}
-									<option value="{{i.variation_value}}">{{i.variation_value}}</option>
+								<select name="weight" class="form-control" required>
+									<option value="" disabled selected>Boyut Seçiniz</option>
+									{% for i in single_product.variation_set.weight %}
+									<option value="{{i.variation_value | lower}}">{{i.variation_value | capfirst}}</option>
 									{%endfor%}
 								</select>
 						</div>
 					</div> <!-- row.// -->
 					{% comment %} second option here for porducts {% endcomment %}
-					{% comment %} <div class="row">
+					<div class="row">
 						<div class="item-option-select" >
-							<h6>Select Size</h6>
-								<select name="color" class="form-control">
-									<option value="red">Red</option>
-									<option value="yellow">Yellow</option>
-									<option value="green">Green</option>
+							<h6>Boyut Seç</h6>
+								<select name="volume" class="form-control">
+									<option value="" disabled selected>Boyut Seçiniz</option>
+									{% for i in single_product.variation_set.volume %}
+									<option value="{{i.variation_value | lower}}">{{i.variation_value | capfirst}}</option>
+									{%endfor%}
 								</select>							
 						</div>
-					</div> <!-- row.// --> {% endcomment %}
+					</div>
 					<hr>
 					{% if single_product.stock <= 0 %}
 					<div class="alert alert-primary" role="alert">

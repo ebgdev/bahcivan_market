@@ -12,9 +12,10 @@ def _cart_id(request):
     return cart
 # to add product to cart one by one
 def add_cart(request,product_id):
-    size = request.GET['size'] #handlign product multiple size option here.
-    return HttpResponse(size)
-    exit()
+    if request.method == "POST":
+        weight = request.POST['weight']
+        volume = request.POST['volume']
+        print(weight,volume)
     #get the product
     product = Product.objects.get(id=product_id) 
     try:

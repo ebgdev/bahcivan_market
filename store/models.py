@@ -22,10 +22,20 @@ class Product(models.Model):
 
     def __str__(self):
         return self.product_name
+
+
+class VariationManager(models.Manager):
+    def weight(self):
+        return super(VariationManager,self).filter(variation_category='weight',is_active=True)
     
+    def volume(self):
+        return super(VariationManager,self).filter(variation_category='volume',is_active=True)
+    
+
+
 variation_category_choice = (
-    ('option1','option1'),
-    ('option2','option2'),
+    ('weight','weight'),
+    ('volume','volume'),
 ) 
 
 class Variation(models.Model):
@@ -34,6 +44,8 @@ class Variation(models.Model):
     variation_value = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     created_date = models.DateTimeField(auto_now=True)
+    
+    objects = VariationManager()
     
     def __unicode__(self):
         return self.product
