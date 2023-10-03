@@ -4,7 +4,18 @@
 
 <section class="section-conten padding-y" style="min-height:84vh">
 
-    <!-- ============================ COMPONENT LOGIN   ================================= -->
+
+{% if request.GET.command == 'verification' %}
+
+<div class="container mx-auto alert alert-info text-center" role="alert" style="max-width: 1024px; margin-top:100px;"> 
+Lütfen hesabınızı etkinleştirmek için size gönderilen e-postayı onaylayınızm [{{ request.GET.email }}]
+<br><br>
+Zaten onayladınız mı? <a href="{% url 'login' %}">Giriş Yap</a>
+</div>
+
+{% else %}
+
+<!-- ============================ COMPONENT LOGIN   ================================= -->
 
         <div class="card mx-auto" style="max-width: 380px; margin-top:100px;"> 
           <div class="card-body">
@@ -33,8 +44,8 @@
          <p class="text-center mt-4">Hesabınız yok mu? <a href="{% url 'register' %}">Üye ol</a></p>
          <br><br>
     <!-- ============================ COMPONENT LOGIN  END.// ================================= -->
+{% endif %}
     
-    
-    </section>
+</section>
 
 {% endblock %}
