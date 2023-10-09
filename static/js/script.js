@@ -60,11 +60,5 @@ $(document).ready(function() {
 
 
 setTimeout(function(){
-    $('#message').fadeOut('slow')
-},4000)
-
-// $(document).ready(function() {
-//     setTimeout(function() {
-//         $('#message').fadeOut('slow');
-//     }, 4000);
-// });
+    $('.messages').fadeOut('slow')
+}, 4000);

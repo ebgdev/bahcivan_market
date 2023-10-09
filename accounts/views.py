@@ -58,8 +58,8 @@ def login(request):
 
         if user is not None:
             auth.login(request,user)
-            # messages.success(request,'Giriş Yapıldı')
-            return redirect('home')
+            messages.success(request,'Giriş Yapıldı')
+            return redirect('dashboard')
         else:
             messages.error(request,'Geçersiz giriş')
             return redirect('login')
@@ -89,3 +89,8 @@ def activate(request,uidb64,token):
     else:
         messages.error(request,'Geçersiz aktivasyon bağlantısı')
         return redirect('register')
+    
+
+@login_required(login_url = 'login')
+def dashboard(request):
+    return render(request, 'accounts/dashboard.html')
