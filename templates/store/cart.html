@@ -99,10 +99,11 @@
                   <dd class="text-right text-dark b"><strong>{{ grand_total }}</strong></dd>
                 </dl> {% endcomment %}
                 <hr>
-                <p class="text-center mb-3">
-                    <img src="./images/misc/payments.png" height="26">
+                <!-- images can come here  -->
+                <!-- <p class="text-center mb-3">
+                    <img src="./images/misc/payments.png" height="26"> -->
                 </p>
-                <a href="./place-order.html" class="btn btn-primary btn-block"> Checkout </a>
+                <a href="{% url 'checkout' %}" class="btn btn-primary btn-block"> Onayla </a>
                 <a href="{% url 'store' %}" class="btn btn-light btn-block">Ürün Ekle</a>
             </div> <!-- card-body.// -->
             </div> <!-- card.// -->
