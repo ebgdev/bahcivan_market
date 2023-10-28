@@ -11,25 +11,26 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title mb-4">Fatura Adresi</h4>
-                        <form action="">
+                        <form action="" method="POST">
+                            {% csrf_token %}
                             <div class="form-row">
                                 <div class="col form-group">
                                     <label for="">AD</label>
-                                    <input type="text" name="first_name" class="form-control" required>        
+                                    <input type="text" name="first_name" class="form-control" required>
                                 </div>
                                 <div class="col form-group">
                                     <label for="">SOYAD</label>
-                                    <input type="text" name="last_name" class="form-control" required>        
+                                    <input type="text" name="last_name" class="form-control" required>      
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="col form-group">
                                     <label for="">E-POSTA</label>
-                                    <input type="email" name="email" class="form-control" required>        
+                                    <input type="email" name="email" class="form-control" required>
                                 </div>
                                 <div class="col form-group">
                                     <label for="">TEL No</label>
-                                    <input type="text" name="phone" class="form-control" required>        
+                                    <input type="text" name="phone" class="form-control" required>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -57,7 +58,7 @@
                                 <textarea name="order_note" rows="2" class="form-control"></textarea>
                                 
                             </div>
-                        </form>
+                        
                     </div>
                 </div> <!-- card.// -->
                 
@@ -104,10 +105,12 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <a href="./place-order.html" class="btn btn-primary btn-block"> Siparişi Tamamla </a>
+            <button type="submit" name="submit" class="btn btn-primary btn-block">Siparişi Tamamla</button>
+            
             <a href="{% url 'store' %}" class="btn btn-light btn-block">Alışverişe Devam Et</a>
         </div> <!-- card-body.// -->
     </div> <!-- card.// -->
+</form>
 </aside> <!-- col.// -->
 
         
