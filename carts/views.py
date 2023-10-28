@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render,redirect,get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 from store.models import Product,Variation
@@ -136,6 +137,7 @@ def cart(request,total=0,quantity=0,cart_items=None):
 
     return render(request,'store/cart.html/',context)
 
+@login_required(login_url='login')
 def checkout(request,total=0,quantity=0,cart_items=None):
     try:
         # tax = 0
@@ -162,3 +164,5 @@ def checkout(request,total=0,quantity=0,cart_items=None):
         # 'grand_total': grand_total,          
     }
     return render(request,'store/checkout.html',context)
+
+
