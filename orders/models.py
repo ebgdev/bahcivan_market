@@ -33,12 +33,12 @@ class Order(models.Model):
     email = models.EmailField(max_length=254)
     address_line_1 = models.CharField(max_length = 50)
     address_line_2 =  models.CharField(max_length = 50,blank=True)
-    country = models.CharField(max_length = 50)
+    # country = models.CharField(max_length = 50)
     state = models.CharField(max_length = 50)
     city = models.CharField(max_length = 50)
     order_note = models.CharField(max_length = 100,blank = True)
     order_total = models.DecimalField(max_digits=8, decimal_places=2)
-    tax = models.DecimalField(max_digits=8, decimal_places=2)
+    # tax = models.DecimalField(max_digits=8, decimal_places=2)
     status = models.CharField(max_length = 10,choices=STATUS,default = 'New')
     ip = models.CharField(blank=True,max_length= 20)
     is_ordered = models.BooleanField(default=False)
@@ -47,7 +47,7 @@ class Order(models.Model):
 
 
     def __str__(self):
-        return self.user.first_name
+        return self.first_name
     
 class OrderProduct(models.Model):
     order = models.ForeignKey(Order,on_delete=models.CASCADE)
