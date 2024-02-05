@@ -13,7 +13,14 @@
             <div class="card">
                 <h5 class="card-header">Fatura Adresi</h5>
                 <div class="card-body">
-                    <p class="card-text">with supporting text bellow as natural lead-in to additional</p>
+                    <p class="card-text mb-0">{{order.full_name}}</p>
+                    <p class="card-text mb-0">{{order.full_address}}</p>
+                    <p class="card-text mb-0">{{order.city}} {{order.state}}</p>
+                    <p class="card-text mb-0">{{order.phone}} </p>
+                    <p class="card-text mb-0">{{order.email}} </p>
+                    {% if order.order_note %}
+                    <b>Sipariş Notu: </b> {{ order.order_note }}
+                    {% endif %}
                 </div>
             </div>
             <div class="card">
@@ -25,7 +32,45 @@
             <div class="card">
                 <h5 class="card-header">Özet</h5>
                 <div class="card-body">
-                    <p class="card-text">with supporting text bellow as natural lead-in to additional</p>
+                    <table class="table table-borderless table-shopping-cart">
+                        <thead class="text-muted">
+                            <tr class="small text-uppercase">
+                                <th scope="col">ÜRÜN</th>
+                                <th scope="col" width="120">SAYI</th>
+                                <th scope="col" width="120">ÜCRET</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cart_item in cart_items %}
+                            <tr>
+                                <td>
+                                    <figure class="itemside align-items-center">
+                                        <div class="aside"><img src="{{ cart_item.product.image.url }}" class="img-sm"></div>
+                                        <figcaption class="info">
+                                            <a href="{{ cart_item.product.get_url }}" class="title text-dark">{{ cart_item.product.product_name }}</a>
+                                            <p class="text-muted small">
+                                                {% if cart_item.variations.all %}
+                                                {% for item in cart_item.variations.all %}
+                                                {{ item.variation_category | capfirst }} : {{ item.variation_value | capfirst }} <br>
+                                                {% endfor %}
+                                                {% endif %}
+                                            </p>
+                                        </figcaption>
+                                    </figure>
+                                </td>
+                                <td>
+                                    <label for="">{{cart_item.quantity}}</label>
+                                </td>
+                                <td>
+                                    <div class="price-wrap">
+                                        <var class="price">{{ cart_item.sub_total }} TL</var>
+                                        <small class="text-muted"> {{ cart_item.product.price }} TL Adeti</small>
+                                    </div> <!-- price-wrap .// -->
+                                </td>        
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         
@@ -61,6 +106,7 @@
     
     </div> <!-- row.// -->
     <!-- ============================ COMPONENT 1 END .// ================================= -->
+    
     
     </div> <!-- container .//  -->
     </section>
