@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Account
+from .models import Account, UserProfile, Address
 from django.contrib.auth.admin import UserAdmin
 
 
@@ -16,5 +16,16 @@ class AccountAdmin(UserAdmin):
 
 # Register your models here.
 
+
+@admin.register(UserProfile)
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ['user', 'city', 'state', 'country']
+    search_fields = ['user__username', 'city', 'state', 'country']
+
+@admin.register(Address)
+class AddressAdmin(admin.ModelAdmin):
+    list_display = ['user', 'address_type', 'first_name', 'last_name', 'city', 'state', 'is_default']
+    list_filter = ['address_type', 'is_default', 'country']
+    search_fields = ['user__username', 'first_name', 'last_name', 'city']
 
 admin.site.register(Account,AccountAdmin)

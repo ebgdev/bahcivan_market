@@ -1,0 +1,186 @@
+/* Custom CSS for improved UX */
+
+/* Consistent button styling */
+.input-group .btn {
+    border-radius: 0;
+    border: 1px solid #ced4da;
+    min-width: 40px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
+    color: #495057;
+    transition: all 0.15s ease-in-out;
+}
+
+.input-group .btn:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+    color: #495057;
+}
+
+.input-group-prepend .btn {
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+    border-right: none;
+}
+
+.input-group-append .btn {
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+    border-left: none;
+}
+
+.input-group .form-control.text-center {
+    border: 1px solid #ced4da;
+    text-align: center;
+    min-width: 60px;
+    height: 38px;
+    background-color: #f8f9fa;
+    color: #495057;
+    font-weight: 500;
+    font-size: 14px;
+    border-radius: 0;
+    box-shadow: none;
+    cursor: default;
+}
+
+.input-group .form-control.text-center:focus {
+    background-color: #f8f9fa;
+    border-color: #ced4da;
+    outline: 0;
+    box-shadow: none;
+}
+
+/* Loading state for buttons */
+.btn-loading {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+/* Smooth transitions */
+.btn, .card, .list-group-item {
+    transition: all 0.2s ease-in-out;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Dashboard improvements */
+.dashboard-card {
+    border: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+/* Order status badges */
+.badge {
+    font-size: 0.8em;
+    padding: 0.4em 0.8em;
+}
+
+/* Profile picture styling */
+.profile-picture {
+    border: 3px solid #dee2e6;
+    transition: border-color 0.2s;
+}
+
+.profile-picture:hover {
+    border-color: #007bff;
+}
+
+/* Enhanced alert animations */
+.alert {
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    border-left: 4px solid #ffffff;
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, #dc3545, #e74c3c);
+    color: white;
+    border-left: 4px solid #ffffff;
+}
+
+.alert-info {
+    background: linear-gradient(135deg, #17a2b8, #6610f2);
+    color: white;
+    border-left: 4px solid #ffffff;
+}
+
+.alert-warning {
+    background: linear-gradient(135deg, #ffc107, #fd7e14);
+    color: #212529;
+    border-left: 4px solid #ffffff;
+}
+
+/* Close button styling */
+.alert .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    padding: 0;
+    background: none;
+    border: none;
+    font-size: 20px;
+    font-weight: bold;
+    color: inherit;
+    opacity: 0.8;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.alert .close:hover {
+    opacity: 1;
+}
+
+/* Animation keyframes */
+@keyframes slideInDown {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutUp {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .input-group {
+        width: 100%;
+    }
+
+    .dashboard-quick-actions .btn {
+        margin-bottom: 10px;
+    }
+}

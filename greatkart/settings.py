@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     'store',
     'carts',
     'orders',
+    'wishlist',
+    'coupons',
+    'payments',
 
     "debug_toolbar",
 ]
@@ -174,4 +177,9 @@ EMAIL_HOST_USER = 'erfanbaghchedan@gmail.com'
 EMAIL_HOST_PASSWORD = 'umcd gcmv bpas uapb' # this is onetime password for Less secure app access
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
+
+# Stripe Settings (add your actual keys in production)
+STRIPE_PUBLISHABLE_KEY = 'pk_test_your_publishable_key_here'
+STRIPE_SECRET_KEY = 'sk_test_your_secret_key_here'
+STRIPE_ENDPOINT_SECRET = 'whsec_your_endpoint_secret_here'
 

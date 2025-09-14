@@ -44,19 +44,59 @@ def product_detail(request,category_slug,product_slug):
     return render(request,'store/product_detail.html',context)
 
 def search(request):
+    products = Product.objects.filter(is_avalible=True)
+    product_count = 0
+
     if 'keyword' in request.GET:
         keyword = request.GET['keyword']
         if keyword:
-            # Use Q objects to perform an OR query on multiple fields
-            products = Product.objects.filter(
+            products = products.filter(
                 Q(product_description__icontains=keyword) | Q(product_name__icontains=keyword)
-            ).order_by('-created_date')
-            product_count = products.count()
-    # else:
-    #     products = []  # Initialize an empty list if no keyword is provided
+            )
+
+    # Price filtering
+    if 'min_price' in request.GET and request.GET['min_price']:
+        min_price = request.GET['min_price']
+        products = products.filter(price__gte=min_price)
+
+    if 'max_price' in request.GET and request.GET['max_price']:
+        max_price = request.GET['max_price']
+        products = products.filter(price__lte=max_price)
+
+    # Category filtering
+    if 'category' in request.GET and request.GET['category']:
+        category_id = request.GET['category']
+        products = products.filter(category__id=category_id)
+
+    # Sorting
+    sort_by = request.GET.get('sort', 'name')
+    if sort_by == 'price_low':
+        products = products.order_by('price')
+    elif sort_by == 'price_high':
+        products = products.order_by('-price')
+    elif sort_by == 'newest':
+        products = products.order_by('-created_date')
+    elif sort_by == 'rating':
+        # Order by average rating (requires aggregation)
+        from django.db.models import Avg
+        products = products.annotate(avg_rating=Avg('reviewrating__rating')).order_by('-avg_rating')
+    else:
+        products = products.order_by('product_name')
+
+    product_count = products.count()
+
+    # Pagination
+    paginator = Paginator(products, 9)
+    page = request.GET.get('page')
+    paged_products = paginator.get_page(page)
 
     context = {
-        'products': products,
-        'product_count': product_count ,
+        'products': paged_products,
+        'product_count': product_count,
+        'keyword': request.GET.get('keyword', ''),
+        'min_price': request.GET.get('min_price', ''),
+        'max_price': request.GET.get('max_price', ''),
+        'selected_category': request.GET.get('category', ''),
+        'sort_by': sort_by,
     }
     return render(request, 'store/store.html', context)

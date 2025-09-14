@@ -47,19 +47,22 @@
         </td>
         <td> 
             <!-- col.// -->
-                        <div class="col"> 
+                        <div class="col">
                             <div class="input-group input-spinner">
                                 <div class="input-group-prepend">
-                                <a href= "{% url 'remove_cart' cart_item.product.id cart_item.id %}"class="btn btn-light" type="button" id="button-plus"> <i class="fa fa-minus"></i> </a>
+                                <form action="{% url 'remove_cart' cart_item.product.id cart_item.id %}" method="POST" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button class="btn btn-light" type="submit" id="button-minus"> <i class="fa fa-minus"></i> </button>
+                                </form>
                                 </div>
-                                <input type="text" class="form-control"  value="{{ cart_item.quantity }}">
+                                <input type="text" class="form-control text-center" value="{{ cart_item.quantity }}" readonly>
                                 <div class="input-group-append">
-                                <form action="{% url 'add_cart' cart_item.product.id %}" method="POST">
+                                <form action="{% url 'add_cart' cart_item.product.id %}" method="POST" style="display:inline;">
                                     {% csrf_token %}
                                     {% for item in cart_item.variations.all %}
-                                    <input type="hidden" name="{{ item.variation_category | lower }}" value = "{{item.variation_value | capfirst }}"> </input>
+                                    <input type="hidden" name="{{ item.variation_category | lower }}" value="{{item.variation_value | capfirst }}">
                                     {% endfor %}
-                                    <button class="btn btn-light" type="submit" id="button-minus"> <i class="fa fa-plus"></i> </button>
+                                    <button class="btn btn-light" type="submit" id="button-plus"> <i class="fa fa-plus"></i> </button>
                                 </form>
                                 </div>
                             </div> <!-- input-group.// -->
@@ -71,8 +74,13 @@
                 <small class="text-muted"> {{ cart_item.product.price }} TL Adeti</small> 
             </div> <!-- price-wrap .// -->
         </td>
-        <td class="text-right"> 
-        <a href="{% url 'remove_cart_item' cart_item.product.id cart_item.id %}" onclick="return confirm ('Bu ürünü silmek istediğinize emin misiniz?')" class="btn btn-danger"> Sil</a>
+        <td class="text-right">
+        <form action="{% url 'remove_cart_item' cart_item.product.id cart_item.id %}" method="POST" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger delete-item-btn">
+                <i class="fa fa-trash"></i> Sil
+            </button>
+        </form>
         </td>
     </tr>
     {% endfor %}

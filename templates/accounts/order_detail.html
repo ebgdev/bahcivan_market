@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="section-conten padding-y bg">
+    {% include 'includes/alerts.html' %}
+    <div class="container">
+        <div class="row">
+        <aside class="col-md-3">
+            <!--   SIDEBAR   -->
+            <ul class="list-group">
+                <a class="list-group-item" href="{% url 'dashboard' %}"> <i class="fa fa-tachometer-alt"></i> Dashboard </a>
+                <a class="list-group-item active" href="{% url 'my_orders' %}"> <i class="fa fa-shopping-bag"></i> Siparişlerim </a>
+                <a class="list-group-item" href="{% url 'edit_profile' %}"> <i class="fa fa-user"></i> Profil Düzenle </a>
+                <a class="list-group-item" href="{% url 'change_password' %}"> <i class="fa fa-key"></i> Şifre Değiştir </a>
+                <a class="list-group-item" href="#"> <i class="fa fa-heart"></i> Favorilerim </a>
+                <a class="list-group-item" href="#"> <i class="fa fa-star"></i> Değerlendirmelerim </a>
+            </ul>
+            <br>
+            <a class="btn btn-light btn-block" href="{% url 'logout' %}"> <i class="fa fa-power-off"></i> <span class="text">Çıkış Yap</span> </a>
+        </aside>
+        <main class="col-md-9">
+            <article class="card">
+            <header class="card-header">
+                <strong class="d-inline-block mr-3">Sipariş No: #{{ order_detail.order_number }}</strong>
+                <span>Sipariş Tarihi: {{ order_detail.created_at|date:"d F Y" }}</span>
+            </header>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h6 class="text-muted">Teslimat Adresi</h6>
+                        <p>{{ order_detail.full_name }} <br>
+                        Telefon: {{ order_detail.phone }} Email: {{ order_detail.email }} <br>
+                        Adres: {{ order_detail.full_address }} <br>
+                        Şehir: {{ order_detail.city }}, {{ order_detail.state }}
+                         </p>
+                    </div>
+                    <div class="col-md-4">
+                        <h6 class="text-muted">Ödeme Bilgileri</h6>
+                        {% if order_detail.payment %}
+                        <span class="text-success">
+                            <i class="fa fa-check-circle"></i>
+                            {{ order_detail.payment.payment_method }}
+                        </span>
+                        <p>Ödeme ID: {{ order_detail.payment.payment_id }}</p>
+                        {% else %}
+                        <span class="text-danger">
+                            <i class="fa fa-times-circle"></i>
+                            Ödeme Yapılmamış
+                        </span>
+                        {% endif %}
+                        <p>Ara Toplam: {{ order_detail.order_total }} TL <br>
+                         {% comment %} Kargo: {{ order_detail.tax }} TL <br> {% endcomment %}
+                         <span class="h5">Toplam: {{ order_detail.order_total }} TL </span>
+                        </p>
+                    </div>
+                </div> <!-- row.// -->
+            </div> <!-- card-body .// -->
+            <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Ürün</th>
+                        <th>Miktar</th>
+                        <th>Fiyat</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for order_product in order_product %}
+                <tr>
+                    <td width="65">
+                        <img src="{{ order_product.product.image.url }}" class="img-xs border">
+                    </td>
+                    <td>
+                        <p class="title mb-0">{{ order_product.product.product_name }}</p>
+                        {% if order_product.variation %}
+                        <p class="text-muted small">
+                            Varyasyon: {{ order_product.variation.variation_category | capfirst }}: {{ order_product.variation.variation_value | capfirst }}
+                        </p>
+                        {% endif %}
+                    </td>
+                    <td>{{ order_product.quantity }}</td>
+                    <td>{{ order_product.product_price }} TL</td>
+                    <td width="200">
+                        {% if order_detail.status == 'Completed' %}
+                            <a href="#" class="btn btn-outline-success btn-sm">
+                                <i class="fa fa-star"></i> Değerlendir
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            </div> <!-- table-responsive .end// -->
+            <div class="text-center">
+                <a href="{% url 'my_orders' %}" class="btn btn-secondary">
+                    <i class="fa fa-arrow-left"></i> Siparişlerime Dön
+                </a>
+                {% if order_detail.status == 'New' %}
+                <a href="#" class="btn btn-danger ml-2">
+                    <i class="fa fa-times"></i> Siparişi İptal Et
+                </a>
+                {% endif %}
+            </div>
+            </article> <!-- order-group.// -->
+        </main>
+    </div> <!-- row.// -->
+    </div>
+
+
+    </section>
+
+{% endblock %}

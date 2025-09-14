@@ -146,7 +146,91 @@ def activate(request,uidb64,token):
 
 @login_required(login_url = 'login')
 def dashboard(request):
-    return render(request, 'accounts/dashboard.html')
+    from orders.models import Order, OrderProduct
+
+    orders = Order.objects.filter(user=request.user, is_ordered=True).order_by('-created_at')
+    orders_count = orders.count()
+
+    context = {
+        'orders_count': orders_count,
+        'user': request.user,
+    }
+    return render(request, 'accounts/dashboard.html', context)
+
+@login_required(login_url = 'login')
+def my_orders(request):
+    from orders.models import Order
+
+    orders = Order.objects.filter(user=request.user, is_ordered=True).order_by('-created_at')
+    context = {
+        'orders': orders,
+    }
+    return render(request, 'accounts/my_orders.html', context)
+
+@login_required(login_url = 'login')
+def order_detail(request, order_id):
+    from orders.models import Order, OrderProduct
+
+    order_detail = Order.objects.get(user=request.user, is_ordered=True, order_number=order_id)
+    order_product = OrderProduct.objects.filter(order=order_detail)
+
+    context = {
+        'order_detail': order_detail,
+        'order_product': order_product,
+        'subtotal': (order_detail.order_total + order_detail.tax),
+    }
+    return render(request, 'accounts/order_detail.html', context)
+
+@login_required(login_url = 'login')
+def edit_profile(request):
+    from .models import UserProfile
+    from .forms import UserForm, UserProfileForm
+
+    userprofile = UserProfile.objects.get_or_create(user=request.user)[0]
+
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=userprofile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Profiliniz başarıyla güncellendi.')
+            return redirect('edit_profile')
+    else:
+        user_form = UserForm(instance=request.user)
+        profile_form = UserProfileForm(instance=userprofile)
+
+    context = {
+        'user_form': user_form,
+        'profile_form': profile_form,
+        'userprofile': userprofile,
+    }
+    return render(request, 'accounts/edit_profile.html', context)
+
+@login_required(login_url = 'login')
+def change_password(request):
+    if request.method == 'POST':
+        current_password = request.POST['current_password']
+        new_password = request.POST['new_password']
+        confirm_password = request.POST['confirm_password']
+
+        user = Account.objects.get(username__exact=request.user.username)
+
+        if new_password == confirm_password:
+            success = user.check_password(current_password)
+            if success:
+                user.set_password(new_password)
+                user.save()
+                messages.success(request, 'Şifreniz başarıyla güncellendi.')
+                return redirect('change_password')
+            else:
+                messages.error(request, 'Mevcut şifrenizi yanlış girdiniz.')
+                return redirect('change_password')
+        else:
+            messages.error(request, 'Şifreler eşleşmiyor.')
+            return redirect('change_password')
+    return render(request, 'accounts/change_password.html')
 
 
 def forgetPassword(request):
