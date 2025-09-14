@@ -1,0 +1,12 @@
+[project]
+name = "bahcivan-market"
+version = "0.1.0"
+description = "Bahçıvan Market - Django E-commerce Application"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "django>=5.1.0",
+    "django-debug-toolbar>=4.4.0",
+    "pillow>=10.4.0",
+    "requests>=2.32.0"
+]
