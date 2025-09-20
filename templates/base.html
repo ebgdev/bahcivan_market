@@ -7,7 +7,7 @@
 <meta http-equiv="cache-control" content="max-age=604800" />
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<title>GreatKart | One of the Biggest Online Shopping Platform</title>
+<title>Bahçıvan Market | Doğal Bitkisel Ürünler</title>
 
 <link href="{% static 'images/favicon.ico' %}" rel="shortcut icon" type="image/x-icon">
 
@@ -25,7 +25,32 @@
 <!-- custom style -->
 <link href="{% static 'css/ui.css'%}" rel="stylesheet" type="text/css"/>
 <link href="{% static 'css/responsive.css' %}" rel="stylesheet" media="only screen and (max-width: 1200px)" />
+
+<!-- HERBALIST THEME - FORCE OVERRIDE -->
 <link href="{% static 'css/custom.css'%}" rel="stylesheet" type="text/css"/>
+<style>
+/* IMMEDIATE FORCE OVERRIDE - Green Theme */
+.btn-primary, .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+    background: linear-gradient(135deg, #2d7c47, #4a9d63) !important;
+    border-color: #2d7c47 !important;
+    color: white !important;
+}
+
+.bg-primary { background: #2d7c47 !important; }
+.text-primary { color: #2d7c47 !important; }
+.border-primary { border-color: #2d7c47 !important; }
+
+/* Force override search and form elements */
+.form-control:focus {
+    border-color: #4a9d63 !important;
+    box-shadow: 0 0 0 0.2rem rgba(45, 124, 71, 0.25) !important;
+}
+
+/* Navbar override */
+.navbar-light .navbar-nav .nav-link:hover {
+    color: #2d7c47 !important;
+}
+</style>
 
 <!-- custom javascript -->
 <script src="{% static 'js/script.js' %}" type="text/javascript"></script>

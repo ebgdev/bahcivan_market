@@ -28,26 +28,36 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="card border-primary">
-                            <div class="card-header bg-primary text-white">
+                        <div class="card dashboard-card">
+                            <div class="card-header">
                                 <i class="fa fa-shopping-bag"></i> Sipariş İstatistikleriniz
                             </div>
-                            <div class="card-body">
-                                <h3 class="text-primary">{{ orders_count }}</h3>
-                                <p>Toplam Siparişiniz</p>
-                                <a href="{% url 'my_orders' %}" class="btn btn-primary btn-sm">Siparişleri Görüntüle</a>
+                            <div class="card-body text-center">
+                                <h2 class="display-4" style="color: var(--primary-green);">{{ orders_count }}</h2>
+                                <p class="text-muted">Toplam Siparişiniz</p>
+                                <a href="{% url 'my_orders' %}" class="btn btn-primary">
+                                    <i class="fa fa-eye"></i> Siparişleri Görüntüle
+                                </a>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="card border-success">
-                            <div class="card-header bg-success text-white">
+                        <div class="card dashboard-card">
+                            <div class="card-header">
                                 <i class="fa fa-user"></i> Hesap Bilgileriniz
                             </div>
                             <div class="card-body">
-                                <p><strong>Email:</strong> {{ user.email }}</p>
-                                <p><strong>Telefon:</strong> {{ user.phone_number|default:"Belirtilmemiş" }}</p>
-                                <a href="{% url 'edit_profile' %}" class="btn btn-success btn-sm">Profili Düzenle</a>
+                                <div class="mb-3">
+                                    <strong style="color: var(--primary-green-dark);">Email:</strong><br>
+                                    <span class="text-muted">{{ user.email }}</span>
+                                </div>
+                                <div class="mb-3">
+                                    <strong style="color: var(--primary-green-dark);">Telefon:</strong><br>
+                                    <span class="text-muted">{{ user.phone_number|default:"Belirtilmemiş" }}</span>
+                                </div>
+                                <a href="{% url 'edit_profile' %}" class="btn btn-success">
+                                    <i class="fa fa-edit"></i> Profili Düzenle
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -60,29 +70,29 @@
                                 <h5><i class="fa fa-cogs"></i> Hızlı Erişim</h5>
                             </div>
                             <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-3 text-center">
-                                        <a href="{% url 'my_orders' %}" class="btn btn-outline-primary btn-lg btn-block">
-                                            <i class="fa fa-shopping-bag"></i><br>
-                                            <small>Siparişlerim</small>
+                                <div class="row dashboard-quick-actions">
+                                    <div class="col-md-3 text-center mb-3">
+                                        <a href="{% url 'my_orders' %}" class="btn btn-outline-primary btn-lg btn-block" style="padding: 1.5rem;">
+                                            <i class="fa fa-shopping-bag fa-2x mb-2"></i><br>
+                                            <strong>Siparişlerim</strong>
                                         </a>
                                     </div>
-                                    <div class="col-md-3 text-center">
-                                        <a href="{% url 'edit_profile' %}" class="btn btn-outline-success btn-lg btn-block">
-                                            <i class="fa fa-user"></i><br>
-                                            <small>Profilim</small>
+                                    <div class="col-md-3 text-center mb-3">
+                                        <a href="{% url 'edit_profile' %}" class="btn btn-light btn-lg btn-block" style="padding: 1.5rem;">
+                                            <i class="fa fa-user fa-2x mb-2" style="color: var(--accent-green);"></i><br>
+                                            <strong>Profilim</strong>
                                         </a>
                                     </div>
-                                    <div class="col-md-3 text-center">
-                                        <a href="{% url 'change_password' %}" class="btn btn-outline-warning btn-lg btn-block">
-                                            <i class="fa fa-key"></i><br>
-                                            <small>Şifre Değiştir</small>
+                                    <div class="col-md-3 text-center mb-3">
+                                        <a href="{% url 'change_password' %}" class="btn btn-light btn-lg btn-block" style="padding: 1.5rem;">
+                                            <i class="fa fa-key fa-2x mb-2" style="color: var(--sage-green);"></i><br>
+                                            <strong>Şifre Değiştir</strong>
                                         </a>
                                     </div>
-                                    <div class="col-md-3 text-center">
-                                        <a href="{% url 'store' %}" class="btn btn-outline-info btn-lg btn-block">
-                                            <i class="fa fa-shopping-cart"></i><br>
-                                            <small>Alışverişe Devam</small>
+                                    <div class="col-md-3 text-center mb-3">
+                                        <a href="{% url 'store' %}" class="btn btn-success btn-lg btn-block" style="padding: 1.5rem;">
+                                            <i class="fa fa-leaf fa-2x mb-2"></i><br>
+                                            <strong>Bitkisel Ürünler</strong>
                                         </a>
                                     </div>
                                 </div>

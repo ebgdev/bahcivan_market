@@ -99,3 +99,41 @@ class ProductGallery(models.Model):
     class Meta:
         verbose_name = 'productgallery'
         verbose_name_plural = 'product gallery'
+
+
+class Banner(models.Model):
+    title = models.CharField(max_length=200, blank=True)
+    image = models.ImageField(upload_to='photos/banners')
+    link_type = models.CharField(
+        max_length=20,
+        choices=[
+            ('category', 'Category'),
+            ('product', 'Product'),
+            ('url', 'Custom URL')
+        ],
+        default='url'
+    )
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True)
+    custom_url = models.URLField(blank=True)
+    is_active = models.BooleanField(default=True)
+    order = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['order', '-created_at']
+        verbose_name = 'Banner'
+        verbose_name_plural = 'Banners'
+
+    def __str__(self):
+        return self.title or f"Banner {self.id}"
+
+    def get_link_url(self):
+        if self.link_type == 'category' and self.category:
+            return self.category.get_url()
+        elif self.link_type == 'product' and self.product:
+            return self.product.get_url()
+        elif self.link_type == 'url' and self.custom_url:
+            return self.custom_url
+        return '#'

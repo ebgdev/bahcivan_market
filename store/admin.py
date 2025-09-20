@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Product, Variation, ReviewRating, ProductGallery
+from .models import Product, Variation, ReviewRating, ProductGallery, Banner
+from django.utils.html import format_html
+import os
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('product_name','price','stock','category','created_date','is_avalible')
@@ -37,7 +39,61 @@ class ReviewRatingAdmin(admin.ModelAdmin):
     search_fields = ['product__product_name', 'user__username', 'subject']
     readonly_fields = ['ip']
 
+class BannerAdmin(admin.ModelAdmin):
+    list_display = ('title', 'image_preview', 'link_type', 'get_link_target', 'is_active', 'order', 'created_at', 'load_to_banner_button')
+    list_filter = ('link_type', 'is_active', 'created_at')
+    search_fields = ('title',)
+    list_editable = ('is_active', 'order')
+    ordering = ('order', '-created_at')
+
+    fieldsets = (
+        ('Banner Information', {
+            'fields': ('title', 'image', 'is_active', 'order')
+        }),
+        ('Link Configuration', {
+            'fields': ('link_type', 'category', 'product', 'custom_url'),
+            'description': 'Choose link type and configure the corresponding field'
+        }),
+    )
+
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" style="max-height: 50px; max-width: 100px;" />', obj.image.url)
+        return 'No Image'
+    image_preview.short_description = 'Preview'
+
+    def get_link_target(self, obj):
+        if obj.link_type == 'category' and obj.category:
+            return f"Category: {obj.category.category_name}"
+        elif obj.link_type == 'product' and obj.product:
+            return f"Product: {obj.product.product_name}"
+        elif obj.link_type == 'url' and obj.custom_url:
+            return f"URL: {obj.custom_url}"
+        return 'No Link'
+    get_link_target.short_description = 'Link Target'
+
+    def load_to_banner_button(self, obj):
+        return format_html(
+            '<button type="button" onclick="loadToBanner({})" class="button">Load to Banner</button>',
+            obj.id
+        )
+    load_to_banner_button.short_description = 'Actions'
+
+    class Media:
+        js = ('admin/js/banner_admin.js',)
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+
+        # Add JavaScript for dynamic field display
+        form.base_fields['link_type'].widget.attrs.update({
+            'onchange': 'toggleLinkFields(this.value)'
+        })
+
+        return form
+
 admin.site.register(Product,ProductAdmin)
 admin.site.register(Variation,VariationAdmin)
 admin.site.register(ReviewRating, ReviewRatingAdmin)
+admin.site.register(Banner, BannerAdmin)
 
